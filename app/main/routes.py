@@ -1,7 +1,7 @@
 from app.main import bp
 from flask import Flask,render_template,flash
 from flask import request, url_for, redirect
-from app.forms.regestration import RegistrationForm
+from app.forms.registration import RegistrationForm
 from app.forms.login import LoginForm
 from flask_login import login_user, current_user
 from app.models.user import User
