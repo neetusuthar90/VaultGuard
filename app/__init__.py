@@ -4,6 +4,7 @@ from flask_login import LoginManager, login_manager
 from flask import Flask,render_template,flash
 from app.extension import db
 from app.models.user import User
+from app.models.item import Item
 
 
 def create_app(config_class=Config):
@@ -15,9 +16,9 @@ def create_app(config_class=Config):
 
     @login_manager.user_loader
     def load_user(user_id):
-        return User(user_id)
+        return User.query.get(int(user_id))
     
-    # Initialize Flask extensions here
+    # Export db
     db.init_app(app)
     with app.app_context():
         db.create_all()

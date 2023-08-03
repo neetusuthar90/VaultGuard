@@ -1,6 +1,6 @@
 from flask_login import UserMixin
 from datetime import datetime
-
+from app.models.item import Item
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 
@@ -11,9 +11,7 @@ class User(UserMixin, db.Model):
       password_hash = db.Column(db.String(150))
       joined_at = db.Column(db.DateTime(), default = datetime.utcnow, index = True)
 
-      def __init__(self,id,username,email,password):
-            super(User, self).__init__()
-            self.id = id
+      def __init__(self,username,email,password):
             self.username = username
             self.email = email
             self.set_password(password)
@@ -23,3 +21,5 @@ class User(UserMixin, db.Model):
 
       def check_password(self,password):
             return check_password_hash(self.password_hash,password)
+      
+      items = db.relationship('Item', backref='user', lazy=True)
