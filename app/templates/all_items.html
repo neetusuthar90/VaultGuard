@@ -1,7 +1,15 @@
+<h1> Vault </h1>
+<h2> Add new items to vault. </h2>
+{% for password in passwords %}
+<div>
+    <p>Website: {{ password.website_name }}</p>
+    <p>Username: {{ password.username }}</p>
+</div>
+{% endfor %}
 <form action="" method="post">
     {{form.hidden_tag()}}
     <div>
-        {{form.email(placeholder="email",
+        {{form.website_name(placeholder="website_name",
         style='width: 50%;
         font-weight: bold;
         padding: 12px 20px;
@@ -9,7 +17,21 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         box-sizing: border-box')}}
-        {% for error in form.email.errors %}
+        {% for error in form.website_name.errors %}
+        <p> {{ error }}</p>
+        {% endfor %}
+    </div>
+    <br>
+    <div>
+        {{form.username(placeholder="username",
+        style='width: 50%;
+        font-weight: bold;
+        padding: 12px 20px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box')}}
+        {% for error in form.username.errors %}
         <p> {{ error }}</p>
         {% endfor %}
     </div>
@@ -37,15 +59,3 @@
         border-radius: 4px') }}
     </p>
 </form>
-
-{% if current_user.is_anonymous %}
-    <p>Don't have an account? <a href="{{ url_for('main.register') }}">Register</a></p>
-{% else %}
-    <p>Welcome {{ current_user.username }}</p>
-    <a href="{{ url_for('main.new_item') }}">New Item</a>
-    <a href="{{ url_for('main.logout') }}">Logout</a>
-{% endif %}
-
-{% for message in get_flashed_messages() %}
-<p style="color: red;">Error : {{ message }}</p>
-{% endfor %}

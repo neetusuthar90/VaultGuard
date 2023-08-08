@@ -1,0 +1,8 @@
+<div class="vault">
+    <h2>My Items</h2>
+    <ul>
+        {% for item in user_items %}
+            <li><a href="{{ url_for('main.item_details', item_id=item.id) }}">{{ item.website_name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

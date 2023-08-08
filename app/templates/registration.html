@@ -1,5 +1,8 @@
 <h1 style="text-align: justify; color: black;">Create an Account</h1>
 <br>
+{% for message in get_flashed_messages() %}
+    <p style="color: red;">Error : {{ message }}</p>
+{% endfor %}
 <form action="" method="post">
     {{ form.hidden_tag() }}
     <div>
