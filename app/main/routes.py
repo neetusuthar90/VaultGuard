@@ -4,7 +4,7 @@ from flask import request, url_for, redirect, abort
 from app.forms.registration import RegistrationForm
 from app.forms.login import LoginForm
 from app.forms.new_item import ItemForm
-from flask_login import login_user, current_user, login_required
+from flask_login import login_user, current_user, login_required, logout_user
 from app.models.user import User
 from app.models.item import Item
 from app import db
@@ -39,7 +39,7 @@ def login():
         if user is not None and user.check_password(form.password.data):
             login_user(user)
             next = request.args.get("next")
-            return redirect(next or url_for('main.new_item'))
+            return redirect(next or url_for('main.vault'))
         flash('Invalid email address or Password.')
     return render_template('login.html', form = form)
 
@@ -57,9 +57,9 @@ def new_item():
         db.session.add(item)
         db.session.commit()
         flash('Password saved successfully!', 'success')
-        return redirect(url_for('main.new_item'))
+        return redirect(url_for('main.vault'))
     user_passwords = Item.query.filter_by(user = current_user).all()
-    return render_template('all_items.html', form = form, password = user_passwords)
+    return render_template('new_items.html', form = form, password = user_passwords)
 
 @bp.route('/vault',methods = ['GET'])
 @login_required
@@ -77,3 +77,30 @@ def item_details(item_id):
         abort(404)
     return render_template('item_details.html', item = item)
 
+@bp.route('/delete_item/<int:item_id>',methods = ['POST'])
+@login_required
+def delete_item(item_id):
+    print("Request method:", request.method)
+    item = Item.query.filter_by(id = item_id, user = current_user).first()
+
+    if not item:
+        abort(404)
+    
+    if request.method == 'POST':
+        print("Request method:", request.form)
+        if 'delete' in request.form:
+            # Delete the item
+            db.session.delete(item)
+            db.session.commit()
+            db.session.close()
+        flash('Item deleted successfully!','Success')
+
+        return redirect(url_for('main.vault'))
+
+    return render_template('item_details.html',item = item)
+
+
+@bp.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('main.index'))

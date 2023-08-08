@@ -5,4 +5,8 @@
             <li><a href="{{ url_for('main.item_details', item_id=item.id) }}">{{ item.website_name }}</a></li>
         {% endfor %}
     </ul>
+    <h2>Add Items</h2>
+    <ul>
+        <li><a href="{{ url_for('main.new_item') }}">Add New Item</a></li>
+    </ul>
 </div>

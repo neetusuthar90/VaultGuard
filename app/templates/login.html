@@ -1,51 +1,56 @@
-<form action="" method="post">
-    {{form.hidden_tag()}}
-    <div>
-        {{form.email(placeholder="email",
-        style='width: 50%;
-        font-weight: bold;
-        padding: 12px 20px;
-        margin: 8px 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box')}}
-        {% for error in form.email.errors %}
-        <p> {{ error }}</p>
-        {% endfor %}
-    </div>
-    <br>
-   <div>
-        {{ form.password(placeholder="password",
-        style='width: 50%;
-        font-weight: bold;
-        padding: 12px 20px ;
-        margin: 8px 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box') }}
-        {% for error in form.password.errors %}
-        <p>{{ error }}</p>
-        {% endfor %}
-   </div>
-   <p>
-        {{ form.submit(style ='background-color: #4CAF50;
-        color: white;
-        width: 50%;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        border-radius: 4px') }}
-    </p>
-</form>
+<body>
+    <form action="" method="post">
+        <h1>VaultGuard</h1>
+        {{form.hidden_tag()}}
+        <div>
+            <label for="email">Email</label>
+            <br>
+            {{form.email(placeholder="",
+            style='width: 50%;
+            font-weight: bold;
+            padding: 12px 20px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box')}}
+            {% for error in form.email.errors %}
+            <p> {{ error }}</p>
+            {% endfor %}
+        </div>
+        <br>
+        <div>
+            <label for="password">Password</label>
+            <br>
+            {{ form.password(placeholder="Password",
+            style='width: 50%;
+            font-weight: bold;
+            padding: 12px 20px ;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box') }}
+            {% for error in form.password.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        <p>
+            {{ form.submit(style ='background-color: #4CAF50;
+            color: white;
+            width: 50%;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px') }}
+        </p>
+        {% if current_user.is_anonymous %}
+        <div class="register-link">
+            <p>
+                Don't have an account? <a href="{{ url_for('main.register') }}">Register</a>
+            </p>
+        </div>
+        {% endif %}
+    </form>
 
-{% if current_user.is_anonymous %}
-    <p>Don't have an account? <a href="{{ url_for('main.register') }}">Register</a></p>
-{% else %}
-    <p>Welcome {{ current_user.username }}</p>
-    <a href="{{ url_for('main.new_item') }}">New Item</a>
-    <a href="{{ url_for('main.logout') }}">Logout</a>
-{% endif %}
-
-{% for message in get_flashed_messages() %}
-<p style="color: red;">Error : {{ message }}</p>
-{% endfor %}
+    {% for message in get_flashed_messages() %}
+    <p style="color: red;">Error : {{ message }}</p>
+    {% endfor %}
