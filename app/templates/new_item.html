@@ -9,7 +9,9 @@
 <form action="" method="post">
     {{form.hidden_tag()}}
     <div>
-        {{form.website_name(placeholder="website_name",
+        <label for="website_name">Website Name</label>
+        <br>
+        {{form.website_name(placeholder="",
         style='width: 50%;
         font-weight: bold;
         padding: 12px 20px;
@@ -23,7 +25,9 @@
     </div>
     <br>
     <div>
-        {{form.username(placeholder="username",
+        <label for="username">Username</label>
+        <br>
+        {{form.username(placeholder="",
         style='width: 50%;
         font-weight: bold;
         padding: 12px 20px;
@@ -37,7 +41,9 @@
     </div>
     <br>
    <div>
-        {{ form.password(placeholder="password",
+        <label for="password">Password</label>
+        <br>
+        {{ form.password(placeholder="",
         style='width: 50%;
         font-weight: bold;
         padding: 12px 20px ;

@@ -6,7 +6,9 @@
 <form action="" method="post">
     {{ form.hidden_tag() }}
     <div>
-        {{form.username(placeholder="username",
+        <label for="username">Username</label>
+        <br>
+        {{form.username(placeholder="",
         style='width: 50%;
         font-weight: bold;
         padding: 12px 20px;
@@ -20,7 +22,9 @@
     </div>
     <br>
     <div>
-        {{ form.email(placeholder="email",
+        <label for="email">Email</label>
+        <br>
+        {{ form.email(placeholder="",
         style='width: 50%;
         font-weight: bold;
         padding: 12px 20px ;
@@ -34,7 +38,9 @@
     </div>
     <br>
     <div>
-        {{ form.password1(placeholder="password",
+        <label for="password">Password</label>
+        <br>
+        {{ form.password1(placeholder="",
         style='width: 50%;
         font-weight: bold;
         padding: 12px 20px ;
@@ -48,7 +54,9 @@
     </div>
     <br>
     <div>
-        {{ form.password2(placeholder="Confirm password",
+        <label for="Confirm password">Confirm Password</label>
+        <br>
+        {{ form.password2(placeholder="",
         style='width: 50%;
         font-weight: bold;
         padding: 12px 20px ;

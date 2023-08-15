@@ -1,5 +1,5 @@
 from app.main import bp
-from flask import Flask,render_template,flash
+from flask import Flask,render_template,flash,session
 from flask import request, url_for, redirect, abort
 from app.forms.registration import RegistrationForm
 from app.forms.login import LoginForm
@@ -33,6 +33,21 @@ def register():
 
 @bp.route('/login', methods = ['GET','POST'])
 def login():
+
+    if session.get('locked'):
+        # Handle locked state
+        form = LoginForm()
+        if form.validate_on_submit():
+            user = User.query.filter_by(email=current_user.email).first()
+            if user is not None and user.check_password(form.password.data):
+                login_user(user)
+                session.pop('locked', None)  # Unlock the session
+                next = request.args.get("next")
+                return redirect(next or url_for('main.vault'))
+            flash('Invalid password.')
+        return render_template('login.html', form=form)
+    
+    
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email = form.email.data).first()
@@ -59,13 +74,14 @@ def new_item():
         flash('Password saved successfully!', 'success')
         return redirect(url_for('main.vault'))
     user_passwords = Item.query.filter_by(user = current_user).all()
-    return render_template('new_items.html', form = form, password = user_passwords)
+    return render_template('new_item.html', form = form, password = user_passwords)
 
 @bp.route('/vault',methods = ['GET'])
 @login_required
 def vault():
     user_items = current_user.items
     return render_template('vault.html', user_items=user_items)
+
 
 
 @bp.route('/item_details/<int:item_id>')
@@ -77,30 +93,53 @@ def item_details(item_id):
         abort(404)
     return render_template('item_details.html', item = item)
 
-@bp.route('/delete_item/<int:item_id>',methods = ['POST'])
+
+@bp.route('/edit_item/<int:item_id>', methods = ['GET','POST'])
 @login_required
-def delete_item(item_id):
-    print("Request method:", request.method)
-    item = Item.query.filter_by(id = item_id, user = current_user).first()
+def edit_item(item_id):
+    item = Item.query.filter_by(id=item_id, user = current_user).first()
 
     if not item:
         abort(404)
-    
     if request.method == 'POST':
-        print("Request method:", request.form)
-        if 'delete' in request.form:
-            # Delete the item
-            db.session.delete(item)
-            db.session.commit()
-            db.session.close()
-        flash('Item deleted successfully!','Success')
+        if 'cancel' in request.form:
+            return redirect(url_for('main.item_details', item_id=item.id))
+        item.website_name = request.form['website_name']
+        item.username = request.form['username']
+        item.password = request.form['password']
+        
+        db.session.commit()
+        flash('Item edited successfully!','success')
+        return redirect(url_for('main.item_details'))
 
+    return render_template('edit_item.html', item = item)
+
+
+@bp.route('/delete_item/<int:item_id>', methods=['POST'])
+@login_required
+def delete_item(item_id):
+    item = Item.query.filter_by(id=item_id, user=current_user).first()
+
+    if not item:
+        abort(404)
+
+    if request.method == 'POST':
+        # Delete the item
+        db.session.delete(item)
+        db.session.commit()
+        flash('"{}" was successfully deleted!'.format(item['title']))
+        #flash('Item deleted successfully!', 'success')
         return redirect(url_for('main.vault'))
 
-    return render_template('item_details.html',item = item)
-
+    return render_template('item_details.html', item=item)
 
 @bp.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
+
+@bp.route('/lock')
+@login_required
+def lock():
+    session['locked'] = True
+    return redirect(url_for('main.login'))

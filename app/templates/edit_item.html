@@ -1,0 +1,10 @@
+<!-- edit_item.html -->
+
+<h1>Edit Item</h1>
+<form method="post">
+    <p>Username: <input type="text" name="username" value="{{ item.username }}"></p>
+    <p>Password: <input type="text" name="password" value="{{ item.password }}"></p>
+    <p>Notes: <textarea name="notes">{{ item.notes }}</textarea></p>
+    <input type="submit" value="Save Changes">
+</form>
+<a href="{{ url_for('main.item_details', item_id=item.id) }}" class="cancel-button">Cancel</a>
