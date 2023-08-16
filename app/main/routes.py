@@ -33,22 +33,13 @@ def register():
 
 @bp.route('/login', methods = ['GET','POST'])
 def login():
-
-    if session.get('locked'):
-        # Handle locked state
-        form = LoginForm()
-        if form.validate_on_submit():
-            user = User.query.filter_by(email=current_user.email).first()
-            if user is not None and user.check_password(form.password.data):
-                login_user(user)
-                session.pop('locked', None)  # Unlock the session
-                next = request.args.get("next")
-                return redirect(next or url_for('main.vault'))
-            flash('Invalid password.')
-        return render_template('login.html', form=form)
-    
-    
     form = LoginForm()
+    
+    # Check if the session is locked and autofill the email
+    if session.get('locked'):
+        form.email.data = current_user.email
+        session.pop('locked') 
+    
     if form.validate_on_submit():
         user = User.query.filter_by(email = form.email.data).first()
         if user is not None and user.check_password(form.password.data):
@@ -101,16 +92,17 @@ def edit_item(item_id):
 
     if not item:
         abort(404)
+
     if request.method == 'POST':
         if 'cancel' in request.form:
             return redirect(url_for('main.item_details', item_id=item.id))
+        
         item.website_name = request.form['website_name']
         item.username = request.form['username']
-        item.password = request.form['password']
-        
+        item.password = request.form['password'] 
         db.session.commit()
         flash('Item edited successfully!','success')
-        return redirect(url_for('main.item_details'))
+        return redirect(url_for('main.item_details', item_id=item.id))
 
     return render_template('edit_item.html', item = item)
 
@@ -127,7 +119,7 @@ def delete_item(item_id):
         # Delete the item
         db.session.delete(item)
         db.session.commit()
-        flash('"{}" was successfully deleted!'.format(item['title']))
+        #flash('"{}" was successfully deleted!'.format(item['item.website_name']))
         #flash('Item deleted successfully!', 'success')
         return redirect(url_for('main.vault'))
 
