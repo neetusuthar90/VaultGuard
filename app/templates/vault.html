@@ -7,14 +7,24 @@
     </ul>
     <h2>Add Items</h2>
     <ul>
-        <li><a href="{{ url_for('main.new_item') }}">Add New Item</a></li>
+        <li><a href="{{ url_for('main.new_item') }}">
+            <button style="background-color: blue; color: white;"> + New Item</button>
+        </a></li>
     </ul>
 </div>
 
 <div>
-    <a href="{{ url_for('main.lock') }}">Lock Now</a>
+    <a href="{{ url_for('main.lock') }}">
+        <button style="background-color: white; color: blue;">
+            Lock Now
+        </button>
+    </a>
 </div>
 
 <div>
-    <a href="{{ url_for('main.logout') }}">Logout</a>
+    <a href="{{ url_for('main.logout') }}">
+        <button style="background-color: blue; color: white;">
+            Logout
+        </button>
+    </a>
 </div>

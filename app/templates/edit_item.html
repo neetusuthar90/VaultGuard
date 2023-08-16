@@ -1,10 +1,15 @@
 <!-- edit_item.html -->
 
 <h1>Edit Item</h1>
-<form method="post">
+<form method="post",action="{{url_for('main.edit_item', item_id = item.id)}}">
+    <p>Website: <input type="text" name="website_name" value="{{item.website_name}}"></p>
     <p>Username: <input type="text" name="username" value="{{ item.username }}"></p>
     <p>Password: <input type="text" name="password" value="{{ item.password }}"></p>
-    <p>Notes: <textarea name="notes">{{ item.notes }}</textarea></p>
-    <input type="submit" value="Save Changes">
+    <input type="submit" value="Save Changes" style="background-color: blue; color: white;">
 </form>
-<a href="{{ url_for('main.item_details', item_id=item.id) }}" class="cancel-button">Cancel</a>
+
+<a href="{{ url_for('main.item_details', item_id=item.id) }}" class="cancel-button">
+    <button style="background-color: white; color: black;">
+        Cancel
+    </button>    
+</a>
