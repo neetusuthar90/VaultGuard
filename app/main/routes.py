@@ -8,7 +8,8 @@ from flask_login import login_user, current_user, login_required, logout_user
 from app.models.user import User
 from app.models.item import Item
 from app import db
-
+from app.models.password_generator import generate_password
+import pyperclip
 
 @bp.route('/')
 def index():
@@ -66,7 +67,7 @@ def new_item():
         return redirect(url_for('main.vault'))
     user_passwords = Item.query.filter_by(user = current_user).all()
     return render_template('new_item.html', form = form, password = user_passwords)
-
+        
 @bp.route('/vault',methods = ['GET'])
 @login_required
 def vault():
@@ -124,6 +125,31 @@ def delete_item(item_id):
         return redirect(url_for('main.vault'))
 
     return render_template('item_details.html', item=item)
+
+
+@bp.route('/generator', methods = ['POST','GET'])
+@login_required
+def generator():
+    if request.method == 'POST':
+        char = request.form.getlist("char_box")
+        len_value = request.form.get("len_range")
+        secure_password = generate_password(
+            length = int(len_value),
+            uppercase = "uppercase" in char,
+            lowercase = "lowercase" in char,
+            digits = "digits" in char,
+        )
+
+        if(len(char) != 0):
+            session["char"] = char
+            session["len_value"] = len_value
+            session["secure_password"] = secure_password
+            return redirect(url_for('main.generator'))
+        else:
+            return redirect(url_for('main.vault'))
+    
+    return render_template('generator.html')
+
 
 @bp.route('/logout')
 def logout():

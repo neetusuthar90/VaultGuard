@@ -1,9 +1,35 @@
-<div>
-    <a href="{{url_for('main.index')}}">Home</a>
-    {% if current_user.is_anonymous%}
-    <a href="{{url_for('main.login')}}">Login</a>
-    {% else %}
-    <p> Welcome {{current_user.username}}</p>
-    <a href="{{url_for('main.logout')}}">Logout</a>
-    {% endif %}
-</div>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>My Password Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+</head>
+
+<body>
+    <header class="header">
+        <h1>VaultGuard</h1>
+    </header>
+    <div class="content">
+        <h1>My Password Manager</h1>
+        <p>Just like me you can also save your Password at one place.</p>
+        <div>
+            <ul>
+                {% if current_user.is_anonymous%}
+                <a href="{{url_for('main.login')}}">
+                    <button>Log in</button>
+                </a>
+                {% else %}
+                <p> Welcome {{current_user.username}}</p>
+                {% endif %}
+            </ul>
+            <ul>
+                <a href="{{url_for('main.register')}}">
+                    <button>Sign up</button>
+                </a>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>

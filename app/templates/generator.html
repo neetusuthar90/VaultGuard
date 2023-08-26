@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+</head>
+
+<body>
+    <h1>Password Generator</h1>
+    <form method="post" action="{{ url_for('main.generator') }}">
+        <p>Options:</p>
+        <label><input type="checkbox" name="char_box" value="uppercase"> Uppercase</label>
+        <br>
+        <label><input type="checkbox" name="char_box" value="lowercase"> Lowercase</label>
+        <br>
+        <label><input type="checkbox" name="char_box" value="digits"> Digits</label>
+
+        <p>Password Length:</p>
+        <input type="range" name="len_range" min="6" max="32" value="12">
+        <span id="len_value">12</span>
+
+        <p>Suggested Password:</p>
+        <input type="text" value="{{ session.secure_password }}" readonly>
+        <input type="submit" value="Generate">
+
+
+        {% if session.secure_password %}
+        <button class="copy-button" data-password="{{session.secure_password}}" 
+            style="background-color: white;">Copy
+        </button>
+        {% endif %}
+
+    </form>
+
+    <script>
+        const lenRange = document.querySelector('input[type="range"]');
+        const lenValue = document.querySelector('#len_value');
+
+        lenRange.addEventListener('input', function () {
+            lenValue.textContent = this.value;
+        });
+
+        const copyButtons = document.querySelectorAll('.copy-button');
+        copyButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const password = this.getAttribute('data-password');
+                copyToClipboard(password);
+            });
+        });
+
+        function copyToClipboard(text) {
+            const tempInput = document.createElement('input');
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempInput);
+        }
+    </script>
+</body>
+
+</html>
