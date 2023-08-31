@@ -9,7 +9,7 @@ from app.models.user import User
 from app.models.item import Item
 from app import db
 from app.models.password_generator import generate_password
-import pyperclip
+
 
 @bp.route('/')
 def index():
@@ -22,7 +22,7 @@ def register():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if(user is not None):
-            flash('Email already exists. Please choose a different email address!!')
+            flash('This email is already exists.')
             return redirect(url_for('main.register'))
         user = User(username = form.username.data, email = form.email.data, password= form.password1.data)
         user.set_password(form.password1.data)
@@ -59,6 +59,7 @@ def new_item():
             website_name = form.website_name.data,
             username = form.username.data,
             password = form.password.data,
+            notes = form.notes.data,
             user = current_user
         )
         db.session.add(item)
@@ -76,7 +77,7 @@ def vault():
 
 
 
-@bp.route('/item_details/<int:item_id>')
+@bp.route('/vault/item_details/<int:item_id>')
 @login_required
 def item_details(item_id):
     item = Item.query.filter_by(id = item_id, user = current_user).first()
@@ -100,7 +101,8 @@ def edit_item(item_id):
         
         item.website_name = request.form['website_name']
         item.username = request.form['username']
-        item.password = request.form['password'] 
+        item.password = request.form['password']
+ 
         db.session.commit()
         flash('Item edited successfully!','success')
         return redirect(url_for('main.item_details', item_id=item.id))
