@@ -1,38 +1,34 @@
-<div class="vault">
-    <h2>My Items</h2>
-    <ul>
-        {% for item in user_items %}
-            <li><a href="{{ url_for('main.item_details', item_id=item.id) }}">{{ item.website_name }}</a></li>
-        {% endfor %}
-    </ul>
-    <h2>Add Items</h2>
-    <ul>
-        <li><a href="{{ url_for('main.new_item') }}">
-            <button style="background-color: blue; color: white;"> + New Item</button>
-        </a></li>
-    </ul>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale = 1.0">
+        <title>My Password Manager</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='vault.css') }}">
+    </head>
 
-<div>
-    <a href="{{ url_for('main.generator') }}">
-        <button style="background-color: white; color: blue;">
-            Generate Password
-        </button>
-    </a>
-</div>
-
-<div>
-    <a href="{{ url_for('main.lock') }}">
-        <button style="background-color: white; color: blue;">
-            Lock Now
-        </button>
-    </a>
-</div>
-
-<div>
-    <a href="{{ url_for('main.logout') }}">
-        <button style="background-color: blue; color: white;">
-            Logout
-        </button>
-    </a>
-</div>
+    <body>
+        <div class="navbar">
+            <h1>VaultGuard</h1>
+            <ul>
+                <li><a href="{{ url_for('main.vault') }}">Home</a></li>
+                <li><a href="{{ url_for('main.generator') }}">Generator</a></li>
+                <li><a href="{{ url_for('main.lock') }}">Lock Account</a></li>
+                <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
+            </ul>
+        </div>
+        <div class="item-box">
+            <div class="sub-navbar">
+                <h1>All Password</h1>
+                <li><a href="{{ url_for('main.new_item') }}">New</a></li>
+            </div>
+            <hr class="horizontal-line">
+            <div class="list">
+                <ul>
+                    {% for item in user_items %}
+                        <li><a href="{{ url_for('main.item_details', item_id=item.id) }}">{{ item.website_name }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>

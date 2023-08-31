@@ -1,67 +1,62 @@
-<h1> Vault </h1>
-<h2> Add new items to vault. </h2>
-{% for password in passwords %}
-<div>
-    <p>Website: {{ password.website_name }}</p>
-    <p>Username: {{ password.username }}</p>
-</div>
-{% endfor %}
-<form action="" method="post">
-    {{form.hidden_tag()}}
-    <div>
-        <label for="website_name">Website Name</label>
-        <br>
-        {{form.website_name(placeholder="",
-        style='width: 50%;
-        font-weight: bold;
-        padding: 12px 20px;
-        margin: 8px 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box')}}
-        {% for error in form.website_name.errors %}
-        <p> {{ error }}</p>
-        {% endfor %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale = 1.0">
+    <title>My Password Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='new_item.css') }}">
+</head>
+
+<body>
+    <header class="header">
+        <h1 class="logo">VaultGuard</h1>
+    </header>
+    <div class="container">
+        <div class="input-group">
+            <div class="form-box">
+                <h1>Add new item</h1>
+                {% for password in passwords %}
+                <div>
+                    <p>Website: {{ password.website_name }}</p>
+                    <p>Username: {{ password.username }}</p>
+                </div>
+                {% endfor %}
+                <form action="" method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="input-field">
+                        {{ form.website_name(placeholder="Name") }}
+                        {% for error in form.website_name.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="input-field">
+                        {{ form.username(placeholder="Username") }}
+                        {% for error in form.username.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="input-field">
+                        {{ form.password(placeholder="Password") }}
+                        {% for error in form.password.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="input-field">
+                        {{ form.notes(placeholder="Notes") }}
+                        {% for error in form.notes.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="input-field">
+                        <p>
+                            {{ form.submit(class="submit-button") }}
+                        </p>
+                    </div>
+                </form>
+
+            </div>
+        </div>
     </div>
-    <br>
-    <div>
-        <label for="username">Username</label>
-        <br>
-        {{form.username(placeholder="",
-        style='width: 50%;
-        font-weight: bold;
-        padding: 12px 20px;
-        margin: 8px 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box')}}
-        {% for error in form.username.errors %}
-        <p> {{ error }}</p>
-        {% endfor %}
-    </div>
-    <br>
-   <div>
-        <label for="password">Password</label>
-        <br>
-        {{ form.password(placeholder="",
-        style='width: 50%;
-        font-weight: bold;
-        padding: 12px 20px ;
-        margin: 8px 0;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box') }}
-        {% for error in form.password.errors %}
-        <p>{{ error }}</p>
-        {% endfor %}
-   </div>
-   <p>
-        {{ form.submit(style ='background-color: #4CAF50;
-        color: white;
-        width: 50%;
-        padding: 14px 20px;
-        margin: 8px 0;
-        border: none;
-        border-radius: 4px') }}
-    </p>
-</form>
+</body>
+
+</html>
