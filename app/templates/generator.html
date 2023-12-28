@@ -2,15 +2,15 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Generator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='generator.css') }}">
 </head>
 
 <body>
     <h1>Password Generator</h1>
     <form method="post" action="{{ url_for('main.generator') }}">
-        <p>Options:</p>
+        <p>Select:</p>
         <label><input type="checkbox" name="char_box" value="uppercase"> Uppercase</label>
         <br>
         <label><input type="checkbox" name="char_box" value="lowercase"> Lowercase</label>

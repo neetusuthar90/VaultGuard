@@ -1,6 +1,22 @@
-<!-- edit_item.html -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale = 1.0">
+        <title>My Password Manager</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='edit_item.css') }}">
+    </head>
 
-<h1>Edit Item</h1>
+    <body>
+        <h1>Edit Item</h1>
+    </body>
+</html>
+
+
+
+
+
+
+
 <form method="post",action="{{url_for('main.edit_item', item_id = item.id)}}">
     <p>Website: <input type="text" name="website_name" value="{{item.website_name}}"></p>
     <p>Username: <input type="text" name="username" value="{{ item.username }}"></p>
