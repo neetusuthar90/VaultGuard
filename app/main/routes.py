@@ -59,7 +59,6 @@ def new_item():
             website_name = form.website_name.data,
             username = form.username.data,
             password = form.password.data,
-            notes = form.notes.data,
             user = current_user
         )
         db.session.add(item)

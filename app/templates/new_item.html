@@ -42,12 +42,6 @@
                         {% endfor %}
                     </div>
                     <div class="input-field">
-                        {{ form.notes(placeholder="Notes") }}
-                        {% for error in form.notes.errors %}
-                        <p>{{ error }}</p>
-                        {% endfor %}
-                    </div>
-                    <div class="input-field">
                         <p>
                             {{ form.submit(class="submit-button") }}
                         </p>

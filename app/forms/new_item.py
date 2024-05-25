@@ -6,6 +6,5 @@ class ItemForm(FlaskForm):
     website_name = StringField('Website Name',validators=[DataRequired()])
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password',validators = [DataRequired()])
-    notes = TextAreaField('Notes')
     submit = SubmitField('Save Password')
 

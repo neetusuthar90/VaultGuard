@@ -2,3 +2,4 @@ my_env
 __pycache__
 instance/mydb.db
 instance/app.sqlite
+.venv

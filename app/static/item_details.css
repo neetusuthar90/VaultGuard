@@ -116,13 +116,6 @@ body {
     box-sizing: border-box;
 }
 
-.notes-box {
-    margin-top: 40px;
-    padding: 20px 60px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-}
 
 * {
     box-sizing: border-box;
