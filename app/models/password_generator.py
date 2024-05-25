@@ -7,7 +7,7 @@ DIGITS = string.digits
 SYMBOLS = string.punctuation.replace("-", "")
 
 def generate_password(**kwargs):
-    length = kwargs.get("length",12)
+    length = kwargs.get("length")
     character = get_character(**kwargs)
 
     password = ""

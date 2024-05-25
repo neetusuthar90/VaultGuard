@@ -51,6 +51,7 @@ def login():
     return render_template('login.html', form = form)
 
 @bp.route('/new_item', methods = ['GET','POST'])
+@login_required
 def new_item():
     form = ItemForm()
     if form.validate_on_submit():
